@@ -29,12 +29,16 @@ RUN sudo -u aur yay --noconfirm -S llvm90
 RUN ldconfig
 RUN sudo -u aur yay --noconfirm -S clang90
 RUN sudo -u aur yay --noconfirm -S clasp-cl-git
+RUN cd /home/aur/.cache/yay && \
+    sudo -u aur yay --noconfirm -G ambertools
+COPY --chown=aur:aur AmberTools20.tar.bz2 /home/aur/.cache/yay/ambertools/
+RUN sudo -u aur yay --noconfirm --nodiffmenu --nocleanmenu -S ambertools
 
 RUN pacman --noconfirm -Syu npm wget
 
 RUN jupyter-labextension install @ijmbarr/jupyterlab_spellchecker \
-    @jupyter-widgets/jupyterlab-manager cytoscape-clj ipysheet \
-    jupyterlab-tabular-data-editor kekule-clj nglview-js-widgets@2.7.7
+     @jupyter-widgets/jupyterlab-manager cytoscape-clj ipysheet \
+     jupyterlab-tabular-data-editor kekule-clj nglview-js-widgets@2.7.7
 
 ARG APP_USER=app
 ARG APP_UID=1000
@@ -57,6 +61,4 @@ RUN cando --non-interactive
 RUN sbcl --non-interactive --eval "(ql:quickload :common-lisp-jupyter)" --eval "(cl-jupyter:install :use-implementation t)"
 RUN clasp --non-interactive --eval "(ql:quickload :common-lisp-jupyter)" --eval "(cl-jupyter:install :use-implementation t)"
 RUN cando --non-interactive --eval "(ql:quickload :cando-jupyter)" --eval "(cando-jupyter:install)"
-
-#CMD ["/bin/bash"]
 
