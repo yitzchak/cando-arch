@@ -57,6 +57,7 @@ ENV USER ${APP_USER}
 ENV HOME /home/${APP_USER}
 ENV PATH "$HOME/.local/bin:$PATH"
 ENV SLIME_HOME "${HOME}/quicklisp/local-projects/slime"
+ENV AMBERHOME /opt/amber/
 
 # Create a user
 RUN useradd --create-home --shell=/bin/bash --uid=${APP_UID} ${APP_USER}
@@ -72,6 +73,9 @@ RUN wget --no-check-certificate https://beta.quicklisp.org/quicklisp.lisp && \
 
 # Use cando to add quickclasp
 RUN cando --non-interactive
+
+# Install SLIME
+RUN git clone https://github.com/slime/slime.git ${HOME}/quicklisp/local-projects/slime
 
 # Use SBCL to install needed packages and then install all of the kernels
 RUN sbcl --non-interactive --eval "(ql:quickload '(:common-lisp-jupyter :kekule-clj :cytoscape-clj :nglview-cl))" --eval "(cl-jupyter:install :use-implementation t)"
