@@ -48,7 +48,8 @@ RUN rm -rf /home/aur/.cache/
 # Install the JupyterLab extensions
 RUN jupyter-labextension install @ijmbarr/jupyterlab_spellchecker \
      @jupyter-widgets/jupyterlab-manager cytoscape-clj ipysheet \
-     jupyterlab-tabular-data-editor kekule-clj nglview-js-widgets@2.7.7
+     jupyterlab-tabular-data-editor kekule-clj nglview-js-widgets@2.7.7 \
+     ngl-clj resizable-box-clj
 
 # Set up the environment
 ARG APP_USER=app
